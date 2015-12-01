@@ -20,7 +20,7 @@ var App = React.createClass({
 				type: 'POST',
 					success:function(response){
 					console.log("Posting data", data, response)
-					document.location='/blog.html'
+					document.location='/index.html'
 					}.bind(this),
 					error: function(xhr,status, err){
 						console.log("NOT POSTING DATA")
