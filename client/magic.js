@@ -48,7 +48,7 @@ var MainJoke = React.createClass({
 
     return !this.props.jokeDisplay ? <div/> : (
       <div className="col-sm-12"id="mainJoke">
-        <h3 className="returnTitles">HAHA</h3>
+        <h3 className="returnTitles">That is so Fucking Funny Guy!</h3>
           {jokeList}
       </div>
     );
