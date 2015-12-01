@@ -14,7 +14,7 @@ var App = React.createClass({
 			var data = ({title: title, cat: cat, body: body});
 
 			$.ajax({
-				url: App,
+				url:"/api/jokes",
 				dataType: 'json',
 				data: data,
 				type: 'POST',
