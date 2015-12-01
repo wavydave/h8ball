@@ -13,8 +13,10 @@ passport        = require('passport'),
 flash           = require('connect-flash'),
 session         = require('express-session'),
 morgan          = require('morgan'),
-cookieParser    = require('cookie-parser');
-
+cookieParser    = require('cookie-parser'),
+db              = require('./model/db'),
+Joke            = require('./model/joke'),
+jokeRoutes      = require('./routes/jokeRoutes');
 
 
 
@@ -82,8 +84,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
 
+app.use('/api/jokes',jokeRoutes);
 app.use('/api', router);
-
 
 
 app.set('port', process.env.PORT || 4000);

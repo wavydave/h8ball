@@ -12,62 +12,67 @@ router.use(function(req, res, next) {
 
 router.route('/')
 // POST NEW JOKE
-    .post(function(req, res){
-   var newJoke = {
-       title: req.body.title,
-       cat: req.body.cat,
-       body: req.body.body;
-       
-     }
+  .post(function(req, res){
+    console.log("joke not created")
+    mongoose.model('Joke').create({
+      title: req.body.title,
+      cat: req.body.cat,
+      body: req.body.body
+    }, function(err, joke){
+      console.log("joke",joke);
+      if(err)
+        res.send(err)
+      
+      res.json(joke)
+    })
+  })
 
-     mongoose.model('Joke').create(newJoke, function(err, joke){
-             if(err){
-           res.send("you have problems duh!!");
-             }else{
-           
-         return res.redirect('/');
-
-         res.send(joke);
-           
-         }
-       });
-     })
 
 // GET All JOKES
  .get(function(req, res) {
    mongoose.model('Joke').find({}, function(err, joke){
      if(err){
-       res.send("You got 99 Problems");
+       res.send("You got Problems bro");
      } else {
        console.log("You are getting Jokes")
        res.json(joke);
      }
    });
  })
-
-
-
-// router.route('/joke/name/:joke_id')
-// // GET VENDOR BY ID
-//    .get(function(req, res){
-//        mongoose.model("Joke").findById(req.params.joke_id, function(err, joke){
-//            if(err){
-//                res.send("You didn't get all of the jokes");
-//            } else{
-//                console.log("You are getting the jokes by ID");
-//                res.json(joke);
-//            }
-//        })
-//    })
-
-//    .delete(function(req, res) {
-//        mongoose.model("Joke").remove({
-//            _id: req.params.joke_id
-//        }, function(err, joke) {
-//            if (err)
-//                res.send(err);
-//            res.json({ message: 'Deleted' });
-//        });
+// GET ONE RANDOM JOKE
+// .get(function(req, res) {
+//    mongoose.model('Joke').find({}, function(err, joke){
+//      if(err){
+//        res.send("You got Problems bro");
+//      } else {
+//        console.log("You are getting Jokes")
+//        res.json(joke);
+//      }
 //    });
+//  })
+
+
+router.route('/joke/:joke_id')
+// GET VENDOR BY ID
+   .get(function(req, res){
+       mongoose.model("Joke").findById(req.params.joke_id, function(err, joke){
+           if(err){
+               res.send("You didn't get all of the jokes");
+           } else{
+               console.log("You are getting the jokes by ID");
+               res.json(joke);
+           }
+       })
+   })
+
+   .delete(function(req, res) {
+       mongoose.model("Joke").remove({
+           _id: req.params.joke_id
+       }, function(err, joke) {
+           if (err)
+               res.send(err);
+           res.json({ message: 'Deleted' });
+       });
+   });
 
 module.exports = router;
