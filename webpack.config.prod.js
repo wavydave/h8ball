@@ -4,9 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: {
-    blogPost: './client/blogForm',
-    github: './client/index',
-    home: './client/blog'
+    home: './client/newJoke'
     
   },
   output: {

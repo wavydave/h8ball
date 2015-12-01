@@ -1,97 +1,26 @@
-var express = require('express');
-var _ = require('lodash');
-var port = process.env.PORT || 3000
-var path = require('path');
-var http = require('http');
-var fs = require('fs');
-var bodyParser = require('body-parser');
-var passport = require('passport');
-var passportLocal= require('passport-local');
-var flash = require('connect-flash');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var db = require('./model/db');
-var blogModel = require('./model/post');
-var blogRoutes = require('./routes/post');
-var Twit = require('twit');
-var commentModel = require('./model/comment');
-var githubRoutes = require('./routes/github');
-var prettydate = require("pretty-date");
-
 require('dotenv').load();
 
-
-var mongoose = require('mongoose');
-
-
-var app = express();
-
-var router = express.Router(); 
-
-
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.set('view engine', 'ejs'); // set up ejs for templating
-
-app.use(session({secret:'ilovegoats'}));
-app.use(passport.initialize());
-app.use(passport.session()); 
-app.use(flash());
-
-require('./routes/userRoutes.js')(app, passport);
-
-require('./config/passport')(passport);
-
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-
-app.options("*", function(req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-});
-
-var T = new Twit({
-  consumer_key:process.env.CONSUMER_KEY,
-  consumer_secret:process.env.CONSUMER_SECRET,
-  access_token:process.env.ACCESS_TOKEN,
-  access_token_secret:process.env.ACCESS_TOKEN_SECRET
-});
-
-var fetchTweets = function(req, res){
-
-  var twitterHandle = req.params.twitterHandle;
-  
-  T.get('statuses/user_timeline', { screen_name: twitterHandle, count: 1 },
-    function(err, data, response){
-      
-      var justTweets = [];
-      
-      data.forEach(function(obj){
-        justTweets.push(obj.text);
-        });
-      
-      res.send(data);
-    });
-  
-}; 
+var fs          = require('fs'),
+mongoose        = require('mongoose'),
+express         = require('express'),
+app             = express(),
+path            = require('path'),
+bodyParser      = require('body-parser'),
+router          = express.Router(),
+axios           = require('axios'),
+_               = require('lodash'),
+passport        = require('passport'),
+flash           = require('connect-flash'),
+session         = require('express-session'),
+morgan          = require('morgan'),
+cookieParser    = require('cookie-parser');
 
 
-app.set('port', (process.env.PORT || 3000));
-
-app.use('/api', router);
 
 
-if (process.env.NODE_ENV === 'production') {
+
+
+if(process.env.NODE_ENV === 'production') {
   console.log('Running in production mode');
 
   app.use('/static', express.static('static'));
@@ -122,21 +51,43 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+app.use('/', express.static(path.join(__dirname, 'public')));
 
-app.use(express.static('public'));
-
-app.use('/api/blog', blogRoutes);
-app.use('/api/handle/:twitterHandle', fetchTweets);
-
-app.use('/api/blogPost', blogRoutes);
-app.use('/api/github', githubRoutes);
-
-app.get('/', function(req, res){
-    res.readFile('index.html')
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
 });
 
+app.options("*", function(req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+});
+
+app.set('view engine', 'ejs');
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser.json()); // get information from html forms
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+ 
+
+// routes ======================================================================
+
+app.use('/api', router);
 
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+
+app.set('port', process.env.PORT || 4000);
+
+var server = app.listen(app.get('port'), function(){ 
+  console.log('Express server listening on port ' + server.address().port)
 });

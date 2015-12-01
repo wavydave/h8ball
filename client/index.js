@@ -1,8 +1,7 @@
 var React = require('react');
-var Github = require('./Github');
-var Twitter = require('./twitterList');
-var ReactDOM = require('react-dom');
+var App = require('./newJoke');
+var magic = require('./magic')
 
 
-ReactDOM.render(<Github url="/api/github" />, document.getElementById('github'));
-ReactDOM.render(<Twitter url="/api/twitter" />, document.getElementById('twitter'));
+React.render(<App/>, document.getElementById('newJokes'));
+React.render(<magic/>, document.getElementById('ball'));

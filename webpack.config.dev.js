@@ -4,10 +4,9 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: {
-    blogPost: ['webpack-hot-middleware/client','./client/blogForm'],
-    github: ['webpack-hot-middleware/client','./client/index'],
+    
     home: ['webpack-hot-middleware/client',
-    './client/blog']
+    './client/index']
     
   },
   output: {
