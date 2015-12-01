@@ -1,7 +1,7 @@
 var React = require('react');
 var App = require('./newJoke');
-var magic = require('./magic')
+var Joke = require('./magic')
 
 
 React.render(<App/>, document.getElementById('newJokes'));
-React.render(<magic/>, document.getElementById('ball'));
+React.render(<Joke/>, document.getElementById('ball'));

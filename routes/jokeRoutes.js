@@ -50,7 +50,7 @@ router.route('/justOne')
      if(err){
        res.send("You got Problems bro");
      } else {
-        console.log(joke);
+        
         var justJokes = joke.map(function(j){
           return j.body
         });
