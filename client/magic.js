@@ -31,7 +31,8 @@ var Joke  = React.createClass ({
     console.log(text);
     return (
      
-      <div>
+      <div id="Jokes">
+        <input type="text" name="Y/N Question"/>
         <button id="showJoke" onClick= {this.loadJokesFromServer}
                 type="button" className="btn btn-default">{text}</button>
            
@@ -48,8 +49,8 @@ var MainJoke = React.createClass({
 
     return !this.props.jokeDisplay ? <div/> : (
       <div className="col-sm-12"id="mainJoke">
-        <h3 className="returnTitles">That is so Fucking Funny Guy!</h3>
-          {jokeList}
+        <h3 className="returnTitles">{jokeList}</h3>
+          
       </div>
     );
   }
