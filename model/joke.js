@@ -3,8 +3,6 @@ var Schema = mongoose.Schema;
 
 var JokeSchema = new Schema ({
 
-    title: String,
-    cat: String,
     body: String
    
 });

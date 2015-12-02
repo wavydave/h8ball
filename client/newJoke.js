@@ -4,14 +4,12 @@ var App = React.createClass({
 	handleSubmit: function(e) {
 		e.preventDefault();
 
-			var title = React.findDOMNode(this.refs.title).value.trim();
-			var cat = React.findDOMNode(this.refs.cat).value.trim();
 			var body = React.findDOMNode(this.refs.body).value.trim();
 
 			if(!title){
 				return;
 			}
-			var data = ({title: title, cat: cat, body: body});
+			var data = ({body: body});
 
 			$.ajax({
 				url:"/api/jokes",
@@ -34,9 +32,6 @@ var App = React.createClass({
 				<div id="answerSubmit">
 					<form method="POST">
 						<h1 id="formHead">Make your own Magic Ballz</h1>
-    					
-						<input type="text" ref="title" className="form-control" placeholder="Title Your Ballz"/>
-						<input type="text" ref="cat" className="form-control" placeholder="Category Please"/>
 						<textarea type="text" ref="body" className="form-control" placeholder="Spit yo hot fire"/>
 						<button onClick={this.handleSubmit} type="submit" className="btn btn-primary">Submit</button>
 					</form>

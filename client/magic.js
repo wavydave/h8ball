@@ -31,13 +31,11 @@ var Joke  = React.createClass ({
     console.log(text);
     return (
      
-      <div id="bigBall" > Ballz
+      <div id="bigBall" onClick= {this.loadJokesFromServer}>Ballz
       <MainJoke joke={this.state.joke} jokeDisplay={this.state.liked}/>
           <div id="joke">
             <input type="text" name="Y/N Question"/>
           <div id="showJoke">
-            <button id="showJoke" onClick= {this.loadJokesFromServer}
-            type="button" className="btn btn-default">{text}</button>
           </div>
         </div>
            

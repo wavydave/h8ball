@@ -20,8 +20,6 @@ router.route('/')
   .post(function(req, res){
     console.log("joke not created")
     mongoose.model('Joke').create({
-      title: req.body.title,
-      cat: req.body.cat,
       body: req.body.body
     }, function(err, joke){
       console.log("joke",joke);
