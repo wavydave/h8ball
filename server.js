@@ -83,7 +83,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
  
 
 // routes ======================================================================
-
+app.use('/api/allCats',ballRoutes);
 app.use('/api/jokes',jokeRoutes);
 app.use('/api', router);
 
